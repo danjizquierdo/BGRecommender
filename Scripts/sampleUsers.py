@@ -14,3 +14,4 @@ for i in range(1,50):
 
 games_subset = {k: v for k, v in games.iteritems() if len(v) > 9}
 
+print games_subset
