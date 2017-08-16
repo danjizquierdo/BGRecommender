@@ -1,8 +1,3 @@
-
-# coding: utf-8
-
-# In[1]:
-
 import requests
 from xml.etree import ElementTree as ET
 import pandas as pd
@@ -65,10 +60,6 @@ for username in userlist:
         time.sleep(5.1 - gap)
 
 
-
-
-# In[2]:
-
 def get_game(gameid):
     newrow = {}
     url = 'https://www.boardgamegeek.com/xmlapi/boardgame/' + gameid + '?stats=1'
@@ -95,6 +86,7 @@ def get_game(gameid):
     return newrow
 
 all_games = pd.DataFrame()
+game_counter = 1
 
 uniquegames = game_list.unique()
 for gameid in uniquegames[0:9]:
@@ -102,14 +94,14 @@ for gameid in uniquegames[0:9]:
     gamedata = get_game(gameid)
     if gamedata:
         all_games = all_games.append(gamedata, ignore_index = True)
+    if all_games.shape[0] > 50000:
+        all_games.to_csv('C://python27/games' + str(game_counter) + '.csv',header=True,index=False,encoding='utf-8')
+        all_games = pd.DataFrame()
+        game_counter += 1
     gap = time.time() - last_call
     if gap < 5:
         time.sleep(5.1 - gap)
     
-all_games.to_csv('C://python27/games.csv',header=True,index=False,encoding='utf-8')
-
-
-# In[3]:
 
 def nanchecker(value):
     try:
