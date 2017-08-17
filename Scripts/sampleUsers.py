@@ -7,7 +7,7 @@ random.seed(42)
 games = {}
 
 for i in range(1,50):
-    path  = 'C://Python27/users' + str(i) + '.csv'
+    path  = 'C://Python27/BGRec/UserDB/users' + str(i) + '.csv'
     current = pd.read_csv(path).dropna(subset = ['rating'])
     for i, row in current.iterrows():
         if row['gameid'] not in games.keys():
@@ -17,8 +17,8 @@ for i in range(1,50):
 
 games_subset = {k: v for k, v in games.iteritems() if len(v) > 9}
 
-gameslist = pd.Series(game_subset.keys())
-gameslist.to_csv('C://Python27//gameslist.csv')
+gameslist = pd.Series(games_subset.keys())
+gameslist.to_csv('C://Python27/BGRec/GameDB/gameslist.csv')
 
 sample_users = set()
 
@@ -32,4 +32,4 @@ for user_list in games_subset.values():
         new_users.remove(samp)
 
 sample_userlist = pd.Series(list(sample_users))
-sample_userlist.to_csv('C://Python27//sample_userlist.csv')
+sample_userlist.to_csv('C://Python27/BGRec/UserDB/sample_users.csv')
