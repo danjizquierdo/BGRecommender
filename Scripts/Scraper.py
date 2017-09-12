@@ -4,6 +4,7 @@ import time
 import pandas as pd
 import numpy as np
 import csv
+from xml.etree import ElementTree as ET
 
 #Finds all users who have submitted reviews on BGG, saved to a csv file
 def find_users(end=456, path='C://python27/'):
@@ -33,7 +34,7 @@ def get_user(username):
     r = requests.get(url)
     try:
         collection = ET.fromstring(r.content)
-    except:
+    except xml.etree.ElementTree.ParseError:
         print 'User ' + username + ' could not be parsed'
         return userstats
     for item in collection:
@@ -41,8 +42,8 @@ def get_user(username):
         try:
             newrow['gameid'] = str(item.attrib['objectid'])
         except:
-            print 'User ' + username + ' could not be IDed'
-            return userstats
+            print 'Game ' + username + ' could not be IDed'
+            continue
         for feature in item:
             if feature.tag == 'stats':
                 for stat in feature:
@@ -62,7 +63,7 @@ def get_user(username):
 def import_users(path='C:/python27/uniqueusers.csv'):
     userlist=[]
     with open(path,'r') as csvfile:
-    readCSV = csv.reader(csvfile,delimiter=',')
+        readCSV = csv.reader(csvfile,delimiter=',')
     for row in readCSV:
         userlist.append(row[1])
     return userlist

@@ -15,7 +15,7 @@ for i in range(1,50):
         else:
             games[row['gameid']].add(row['user'])
 
-games_subset = {k: v for k, v in games.iteritems() if len(v) > 9}
+games_subset = {k: v for k, v in games.iteritems() if len(v) > 24}
 
 gameslist = pd.Series(games_subset.keys())
 gameslist.to_csv('C://Python27/BGRec/GameDB/gameslist.csv')
